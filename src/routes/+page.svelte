@@ -9,6 +9,9 @@
   // Import the violin model component
   import ViolinModel from '#lib/ViolinModel.svelte';
 
+  // Store the selected material finish
+  let selectedFinish = $state('glossy');
+
   // Store the currently selected wood color
   let selectedColor = $state('#ffffff');
 
@@ -108,7 +111,11 @@
 
         <!-- Display the imported violin model -->
         <!-- Pass the selected color to the violin model -->
-        <ViolinModel woodColor={selectedColor} />
+        <!-- Pass the selected color and finish to the violin -->
+        <ViolinModel
+        woodColor={selectedColor}
+        woodFinish={selectedFinish}
+        />
 
         <!-- Allow users to rotate, zoom and move the camera -->
         <OrbitControls
@@ -121,16 +128,8 @@
         />
 
       </Canvas>
+
     </div>
-
-    <!-- Explain the available mouse controls -->
-    <div class="viewer-instructions">
-      <span>↻ Drag to rotate</span>
-      <span>＋ Scroll to zoom</span>
-      <span>✥ Right-click to move</span>
-    </div>
-
-
     <!-- Panel for changing the violin color -->
     <div class="color-panel">
 
@@ -168,14 +167,50 @@
 
         </button>
 
+  
+    
         {/each}
 
     </div>
+
+    <!-- Material finish selection -->
+    <div class="finish-section">
+
+      <!-- Section heading -->
+      <h4>Material Finish</h4>
+      <p>Choose the surface appearance.</p>
+
+      <!-- Material finish buttons -->
+      <div class="finish-options">
+
+        <!-- Glossy finish -->
+        <button
+          type="button"
+          class:active={selectedFinish === 'glossy'}
+          onclick={() => selectedFinish = 'glossy'}
+          aria-pressed={selectedFinish === 'glossy'}
+        >
+          Glossy
+        </button>
+        <!-- Matte finish -->
+        <button
+          type="button"
+          class:active={selectedFinish === 'matte'}
+          onclick={() => selectedFinish = 'matte'}
+          aria-pressed={selectedFinish === 'matte'}
+        >
+          Matte
+        </button>
+
+      </div>
     </div>
+
+    </div> <!-- End of color-panel -->
 
 
     <!-- Additional information about the violin -->
     <div class="description">
+
       <h3>Crafted with Precision</h3>
       <p>
         Explore the violin from every angle.
@@ -431,5 +466,44 @@
 .color-options button:hover {
   border-color: #ad7c86;
 }
+
+
+/* Add spacing above the finish section */
+.finish-section {
+  margin-top: 30px;
+  padding-top: 25px;
+  border-top: 1px solid #eadcd5;
+}
+
+/* Arrange finish buttons horizontally */
+.finish-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+/* Style the finish buttons */
+.finish-options button {
+  padding: 11px 20px;
+  border: 1px solid #e5d7cf;
+  background: white;
+  border-radius: 10px;
+  color: #4d3934;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Highlight the selected finish */
+.finish-options button.active {
+  border-color: #8c4054;
+  background: #faf0f0;
+}
+
+/* Add hover feedback */
+.finish-options button:hover {
+  border-color: #ad7c86;
+}
+
 
 </style>

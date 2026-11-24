@@ -1,6 +1,6 @@
 <script>
   // Import Threlte components to display 3D objects
-  import { T } from '@threlte/core';
+  import { T, useThrelte } from '@threlte/core';
 
   // Import the GLB model loader
   import { useGltf } from '@threlte/extras';
@@ -10,14 +10,12 @@
 
   // Load the violin model from the static folder
   const gltf = useGltf('/models/Violina_Web_Clean.glb');
+  // Get the function that refreshes the 3D scene
+  const { invalidate } = useThrelte();
   // Receive the selected color from the main page
-    let { woodColor = '#ffffff' } = $props();
-
-    // Store the original material color
-    let originalColor = null;
-
-    // Remember the body whose material was copied
-    let preparedBody = null;
+    let { woodColor = '#ffffff' ,
+          woodFinish = 'glossy'
+    } = $props();
 
   // Calculate the correct position and size of the violin
   function getTransform(scene) {
@@ -59,48 +57,88 @@
   // Automatically update the transform when the model loads
   let transform = $derived(getTransform($gltf?.scene));
 
-  // Change only the wooden body color
+ 
+  // Store the original materials of wooden parts
+  const originalMaterials = new Map();
+
+  // Update the color and finish of the violin's wooden parts
   $effect(() => {
 
     // Get the loaded violin scene
     const scene = $gltf?.scene;
 
-    // Get the selected color
+    // Read the selected configuration
     const selectedColor = woodColor;
+    const selectedFinish = woodFinish;
 
     // Stop if the model is not loaded
     if (!scene) return;
 
-    // Find the violin body
-    const body = scene.getObjectByName('KMN_Govde_LP');
+    // Wooden parts that should change together
+    const woodenParts = [
+      'KMN_Govde_LP', // Violin body
+      'KMN_Sap_LP'    // Violin neck
+    ];
 
-    // Stop if the body has no material
-    if (!body || !body.material) return;
+    // Material finish options
+    const finishes = {
+      glossy: 0.05,
+      matte: 0.90
+    };
 
-    // Create a separate material for the body
-    if (preparedBody !== body) {
-      body.material = body.material.clone();
+    // Update each wooden part
+    woodenParts.forEach((name) => {
 
-      // Save its original color
-      originalColor = body.material.color.clone();
+      // Find the object by its Blender name
+      const part = scene.getObjectByName(name);
 
-      preparedBody = body;
-    }
+      // Skip objects that are missing
+      if (!part || !part.material) return;
 
-   
+      // Prepare a separate material for this object
+      if (!originalMaterials.has(part)) {
 
-    // Keep the original color for the default option
-    if (selectedColor === '#ffffff') {
-      body.material.color.copy(originalColor);
-    } else {
-      // Apply the chosen color directly to the material
-      body.material.color.set(selectedColor);
-    }
-    // Keep the existing wood texture
-    body.material.needsUpdate = true;
+        // Save the original material color
+        const originalColor = part.material.color.clone();
+
+        // Clone the material to avoid changing other objects
+        part.material = part.material.clone();
+
+        // Remember the original color
+        originalMaterials.set(part, originalColor);
+      }
+
+      // Get the original color
+      const originalColor = originalMaterials.get(part);
+
+      // Restore the original color or apply a selected tint
+      if (selectedColor === '#ffffff') {
+        part.material.color.copy(originalColor);
+      } else {
+        part.material.color.set(selectedColor);
+      }
+
+      // Apply the selected material finish
+      part.material.roughness = finishes[selectedFinish] ?? 0.4;
+      part.material.metalness = 0;
 
 
+      // Add a polished varnish effect to the glossy finish
+      if ('clearcoat' in part.material) {
+        part.material.clearcoat = selectedFinish === 'glossy' ? 1.0 : 0.0;
+        part.material.clearcoatRoughness =
+          selectedFinish === 'glossy' ? 0.05 : 1.0;
+      }
+
+
+      // Update the material
+      part.material.needsUpdate = true;
+    });
+
+    // Refresh the 3D scene immediately
+    invalidate();
   });
+
 
 </script>
 
