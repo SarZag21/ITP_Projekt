@@ -87,14 +87,19 @@
       preparedBody = body;
     }
 
-    // Create a new color
-    const tint = new Color(selectedColor);
+   
 
-    // Apply the tint without removing the texture
-    body.material.color.copy(originalColor).multiply(tint);
-
-    // Update the material
+    // Keep the original color for the default option
+    if (selectedColor === '#ffffff') {
+      body.material.color.copy(originalColor);
+    } else {
+      // Apply the chosen color directly to the material
+      body.material.color.set(selectedColor);
+    }
+    // Keep the existing wood texture
     body.material.needsUpdate = true;
+
+
   });
 
 </script>
