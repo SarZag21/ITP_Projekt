@@ -6,7 +6,7 @@
   import { useGltf } from '@threlte/extras';
 
   // Import Three.js tools for calculating model dimensions
-  import { Box3, Vector3, Color  } from 'three';
+  import { Box3, Vector3} from 'three';
 
   // Load the violin model from the static folder
   const gltf = useGltf('/models/Violina_Web_Clean.glb');
