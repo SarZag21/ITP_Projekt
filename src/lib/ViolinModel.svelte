@@ -8,14 +8,16 @@
   // Import Three.js tools for calculating model dimensions
   import { Box3, Vector3} from 'three';
 
-  // Load the violin model from the static folder
-  const gltf = useGltf('/models/Violina_Web_Clean.glb');
+// Load the violin model with the chinrest Shape Key
+const gltf = useGltf('/models/Violina_WithShape.glb');
   // Get the function that refreshes the 3D scene
   const { invalidate } = useThrelte();
-  // Receive the selected color from the main page
-    let { woodColor = '#ffffff' ,
-          woodFinish = 'glossy'
-    } = $props();
+ // Receive color, finish and chinrest width from the main page
+let {
+  woodColor = '#ffffff',
+  woodFinish = 'glossy',
+  chinrestWidth = 0
+} = $props();
 
   // Calculate the correct position and size of the violin
   function getTransform(scene) {
@@ -70,7 +72,6 @@
     // Read the selected configuration
     const selectedColor = woodColor;
     const selectedFinish = woodFinish;
-
     // Stop if the model is not loaded
     if (!scene) return;
 
@@ -133,6 +134,40 @@
 
       // Update the material
       part.material.needsUpdate = true;
+    });
+
+    // Refresh the 3D scene immediately
+    invalidate();
+  });
+
+
+  // Update the chinrest shape using its Morph Target
+  $effect(() => {
+
+    // Get the loaded violin scene
+    const scene = $gltf?.scene;
+
+    // Read the selected chinrest width
+    const width = chinrestWidth;
+
+    // Stop if the model is not loaded
+    if (!scene) return;
+
+    // Find meshes that contain the Chinrest_Wide morph target
+    scene.traverse((object) => {
+
+      // Skip objects without morph targets
+      if (!object.isMesh || !object.morphTargetDictionary) return;
+
+      // Find the morph target index
+      const index = object.morphTargetDictionary['Chinrest_Wide'];
+
+      // Stop if this mesh does not have the target
+      if (index === undefined) return;
+
+      // Apply the slider value between 0 and 1
+      object.morphTargetInfluences[index] = width;
+
     });
 
     // Refresh the 3D scene immediately
