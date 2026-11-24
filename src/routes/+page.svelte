@@ -1,4 +1,3 @@
-
 <script>
   // Import the main 3D components from Threlte
   import { Canvas, T } from '@threlte/core';
@@ -33,6 +32,13 @@
       preview: '#79513E'
     }
   ];
+
+  // Receive color, finish and chinrest width from the main page
+let {
+  woodColor = '#ffffff',
+  woodFinish = 'glossy',
+  chinrestWidth = 0
+} = $props();
 
 </script>
 
@@ -112,10 +118,11 @@
         <!-- Display the imported violin model -->
         <!-- Pass the selected color to the violin model -->
         <!-- Pass the selected color and finish to the violin -->
-        <ViolinModel
-        woodColor={selectedColor}
-        woodFinish={selectedFinish}
-        />
+      <ViolinModel
+  woodColor={selectedColor}
+  woodFinish={selectedFinish}
+  chinrestWidth={chinrestWidth}
+/>
 
         <!-- Allow users to rotate, zoom and move the camera -->
         <OrbitControls
@@ -176,6 +183,34 @@
     <!-- Material finish selection -->
     <div class="finish-section">
 
+<!-- Chinrest geometry configuration -->
+<div class="chinrest-section">
+
+  <!-- Section heading -->
+  <h4>Chinrest Shape</h4>
+
+  <!-- Short description -->
+  <p>Adjust the width of the chinrest.</p>
+
+  <!-- Shape control -->
+  <input
+    type="range"
+    min="0"
+    max="1"
+    step="0.01"
+    bind:value={chinrestWidth}
+  />
+
+  <!-- Display the selected value -->
+  <div class="chinrest-labels">
+    <span>Standard</span>
+    <span>{Math.round(chinrestWidth * 100)}%</span>
+    <span>Wider</span>
+  </div>
+
+</div>
+
+
       <!-- Section heading -->
       <h4>Material Finish</h4>
       <p>Choose the surface appearance.</p>
@@ -205,18 +240,6 @@
       </div>
     </div>
 
-    </div> <!-- End of color-panel -->
-
-
-    <!-- Additional information about the violin -->
-    <div class="description">
-
-      <h3>Crafted with Precision</h3>
-      <p>
-        Explore the violin from every angle.
-        Rotate, zoom and discover its
-        unique wooden details.
-      </p>
     </div>
 
   </section>
@@ -504,6 +527,33 @@
 .finish-options button:hover {
   border-color: #ad7c86;
 }
+
+
+/* Separate the chinrest controls from other settings */
+.chinrest-section {
+  margin-top: 30px;
+  padding-top: 25px;
+  border-top: 1px solid #eadcd5;
+}
+
+/* Style the chinrest slider */
+.chinrest-section input[type="range"] {
+  width: 100%;
+  margin-top: 18px;
+  accent-color: #8c4054;
+  cursor: pointer;
+}
+
+/* Arrange the slider labels */
+.chinrest-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+  color: #927a73;
+  font-size: 12px;
+}
+
 
 
 </style>
