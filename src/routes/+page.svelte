@@ -130,6 +130,50 @@
       <span>✥ Right-click to move</span>
     </div>
 
+
+    <!-- Panel for changing the violin color -->
+    <div class="color-panel">
+
+    <!-- Panel heading -->
+    <h3>Customize Your Violin</h3>
+
+    <!-- Color selection heading -->
+    <h4>Wood Color</h4>
+  
+
+    <!-- Short description -->
+    <p>Choose your preferred violin color.</p>
+
+    <!-- Container for color buttons -->
+    <div class="color-options">
+
+        <!-- Create one button for each color -->
+        {#each colors as color}
+
+        <button
+            type="button"
+            class:active={selectedColor === color.value}
+            onclick={() => selectedColor = color.value}
+            aria-pressed={selectedColor === color.value}
+        >
+
+            <!-- Display the color preview -->
+            <span
+            class="color-circle"
+            style:background={color.preview}
+            ></span>
+
+            <!-- Display the color name -->
+            <span>{color.name}</span>
+
+        </button>
+
+        {/each}
+
+    </div>
+    </div>
+
+
     <!-- Additional information about the violin -->
     <div class="description">
       <h3>Crafted with Precision</h3>
@@ -314,4 +358,78 @@
       font-size: 12px;
     }
   }
+
+
+/* Style the color configuration panel */
+.color-panel {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 25px;
+  background: #fffaf7;
+  border: 1px solid #eadcd5;
+  border-radius: 18px;
+  text-align: left;
+}
+
+/* Style the configuration heading */
+.color-panel h3 {
+  font-family: Georgia, serif;
+  font-size: 26px;
+  font-weight: 400;
+  color: #68273a;
+}
+
+/* Style the color selection heading */
+.color-panel h4 {
+  font-size: 16px;
+  color: #49332f;
+}
+
+/* Style the panel description */
+.color-panel p {
+  color: #978078;
+  font-size: 14px;
+}
+
+/* Arrange the color buttons */
+.color-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* Style each color button */
+.color-options button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: white;
+  border: 1px solid #e5d7cf;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #4d3934;
+}
+
+/* Highlight the selected color */
+.color-options button.active {
+  border-color: #8c4054;
+  background: #faf0f0;
+}
+
+/* Display the color preview circles */
+.color-circle {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
+}
+
+/* Add a hover effect to the buttons */
+.color-options button:hover {
+  border-color: #ad7c86;
+}
+
 </style>
