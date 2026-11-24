@@ -8,6 +8,29 @@
 
   // Import the violin model component
   import ViolinModel from '#lib/ViolinModel.svelte';
+
+  // Store the currently selected wood color
+  let selectedColor = $state('#ffffff');
+
+  // Available violin colors
+  const colors = [
+    {
+      name: 'Original Amber',
+      value: '#ffffff',
+      preview: '#C58A4D'
+    },
+    {
+      name: 'Reddish Brown',
+      value: '#E6A896',
+      preview: '#9F6242'
+    },
+    {
+      name: 'Dark Walnut',
+      value: '#AE8975',
+      preview: '#79513E'
+    }
+  ];
+
 </script>
 
 <!-- Define the website title and description -->
@@ -84,7 +107,8 @@
         />
 
         <!-- Display the imported violin model -->
-        <ViolinModel />
+        <!-- Pass the selected color to the violin model -->
+        <ViolinModel woodColor={selectedColor} />
 
         <!-- Allow users to rotate, zoom and move the camera -->
         <OrbitControls
