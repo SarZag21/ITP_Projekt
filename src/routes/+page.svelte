@@ -36,6 +36,35 @@
 // Store the selected chinrest width
 let chinrestWidth = $state(0);
 
+
+  // Define the four open violin strings
+  const violinNotes = [
+    { name: 'G', file: '/sounds/g3.mp3' },
+    { name: 'D', file: '/sounds/d4.mp3' },
+    { name: 'A', file: '/sounds/a4.mp3' },
+    { name: 'E', file: '/sounds/e5.mp3' }
+  ];
+
+  // Store the current audio player
+  let currentAudio = null;
+
+  // Play the selected violin note
+  function playNote(file) {
+    // Stop the previous note
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+    }
+
+    // Create a new audio player
+    currentAudio = new Audio(file);
+
+    // Play the note
+    currentAudio.play().catch((error) => {
+      console.error('Could not play violin sound:', error);
+    });
+  }
+
 </script>
 
 <!-- Define the website title and description -->
@@ -199,6 +228,30 @@ let chinrestWidth = $state(0);
     <span>{Math.round(chinrestWidth * 100)}%</span>
     <span>Wider</span>
   </div>
+
+
+<!-- Classical violin music player -->
+<div class="sound-section">
+
+  <h4>Listen to the Violin</h4>
+
+  <p>Vivaldi-The Four Seasons: Spring</p>
+
+  <!-- Play and pause the classical music -->
+  <audio controls preload="none">
+    <source
+      src="/sounds/vivaldi_spring.ogg"
+      type="audio/ogg"
+    />
+    Your browser does not support audio.
+  </audio>
+
+  <p class="music-credit">
+    Performance: The Modena Chamber Orchestra
+  </p>
+
+</div>
+
 
 </div>
 
@@ -541,6 +594,38 @@ let chinrestWidth = $state(0);
   margin-top: 10px;
   color: #927a73;
   font-size: 12px;
+}
+
+
+/* Separate the sound player from other settings */
+.sound-section {
+  margin-top: 30px;
+  padding-top: 25px;
+  border-top: 1px solid #eadcd5;
+}
+
+/* Arrange the violin note buttons */
+.sound-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+/* Style the sound buttons */
+.sound-buttons button {
+  padding: 12px 20px;
+  background: #fff;
+  border: 1px solid #e5d7cf;
+  border-radius: 10px;
+  color: #68273a;
+  cursor: pointer;
+}
+
+/* Highlight buttons on hover */
+.sound-buttons button:hover {
+  background: #faf0f0;
+  border-color: #8c4054;
 }
 
 
