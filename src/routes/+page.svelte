@@ -36,35 +36,6 @@
 // Store the selected chinrest width
 let chinrestWidth = $state(0);
 
-
-  // Define the four open violin strings
-  const violinNotes = [
-    { name: 'G', file: '/sounds/g3.mp3' },
-    { name: 'D', file: '/sounds/d4.mp3' },
-    { name: 'A', file: '/sounds/a4.mp3' },
-    { name: 'E', file: '/sounds/e5.mp3' }
-  ];
-
-  // Store the current audio player
-  let currentAudio = null;
-
-  // Play the selected violin note
-  function playNote(file) {
-    // Stop the previous note
-    if (currentAudio) {
-      currentAudio.pause();
-      currentAudio.currentTime = 0;
-    }
-
-    // Create a new audio player
-    currentAudio = new Audio(file);
-
-    // Play the note
-    currentAudio.play().catch((error) => {
-      console.error('Could not play violin sound:', error);
-    });
-  }
-
 </script>
 
 <!-- Define the website title and description -->
@@ -205,6 +176,39 @@ let chinrestWidth = $state(0);
 
     </div>
 
+<!-- Material finish selection -->
+<div class="finish-section">
+
+  <!-- Section heading -->
+  <h4>Material Finish</h4>
+  <p>Choose the surface appearance.</p>
+
+  <!-- Finish buttons -->
+  <div class="finish-options">
+
+    <!-- Glossy finish -->
+    <button
+      type="button"
+      class:active={selectedFinish === 'glossy'}
+      onclick={() => selectedFinish = 'glossy'}
+      aria-pressed={selectedFinish === 'glossy'}
+    >
+      Glossy
+    </button>
+
+    <!-- Matte finish -->
+    <button
+      type="button"
+      class:active={selectedFinish === 'matte'}
+      onclick={() => selectedFinish = 'matte'}
+      aria-pressed={selectedFinish === 'matte'}
+    >
+      Matte
+    </button>
+
+  </div>
+</div>
+
 
 <!-- Chinrest geometry configuration -->
 <div class="chinrest-section">
@@ -223,16 +227,17 @@ let chinrestWidth = $state(0);
   />
 
   <!-- Display selected width -->
+
   <div class="chinrest-labels">
     <span>Standard</span>
     <span>{Math.round(chinrestWidth * 100)}%</span>
     <span>Wider</span>
   </div>
 
+</div>
 
 <!-- Classical violin music player -->
 <div class="sound-section">
-
   <h4>Listen to the Violin</h4>
 
   <p>Vivaldi-The Four Seasons: Spring</p>
@@ -251,38 +256,6 @@ let chinrestWidth = $state(0);
   </p>
 
 </div>
-
-
-</div>
-
-
-      <!-- Section heading -->
-      <h4>Material Finish</h4>
-      <p>Choose the surface appearance.</p>
-
-      <!-- Material finish buttons -->
-      <div class="finish-options">
-
-        <!-- Glossy finish -->
-        <button
-          type="button"
-          class:active={selectedFinish === 'glossy'}
-          onclick={() => selectedFinish = 'glossy'}
-          aria-pressed={selectedFinish === 'glossy'}
-        >
-          Glossy
-        </button>
-        <!-- Matte finish -->
-        <button
-          type="button"
-          class:active={selectedFinish === 'matte'}
-          onclick={() => selectedFinish = 'matte'}
-          aria-pressed={selectedFinish === 'matte'}
-        >
-          Matte
-        </button>
-
-      </div>
     </div>
   </section>
 </main>
@@ -533,52 +506,44 @@ let chinrestWidth = $state(0);
 }
 
 
-/* Add spacing above the finish section */
+/* Material finish section */
 .finish-section {
   margin-top: 30px;
   padding-top: 25px;
   border-top: 1px solid #eadcd5;
 }
 
-/* Arrange finish buttons horizontally */
+/* Arrange finish buttons */
 .finish-options {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
   margin-top: 15px;
 }
 
-/* Style the finish buttons */
+/* Style Glossy and Matte buttons */
 .finish-options button {
-  padding: 11px 20px;
-  border: 1px solid #e5d7cf;
+  padding: 12px 22px;
   background: white;
+  border: 1px solid #e5d7cf;
   border-radius: 10px;
   color: #4d3934;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
-/* Highlight the selected finish */
+/* Highlight selected finish */
 .finish-options button.active {
   border-color: #8c4054;
   background: #faf0f0;
 }
 
-/* Add hover feedback */
-.finish-options button:hover {
-  border-color: #ad7c86;
-}
-
-
-/* Separate the chinrest controls from other settings */
+/* Chinrest shape section */
 .chinrest-section {
   margin-top: 30px;
   padding-top: 25px;
   border-top: 1px solid #eadcd5;
 }
 
-/* Style the chinrest slider */
+/* Chinrest slider */
 .chinrest-section input[type="range"] {
   width: 100%;
   margin-top: 18px;
@@ -586,48 +551,33 @@ let chinrestWidth = $state(0);
   cursor: pointer;
 }
 
-/* Arrange the slider labels */
+/* Slider labels */
 .chinrest-labels {
   display: flex;
   justify-content: space-between;
-  gap: 10px;
   margin-top: 10px;
-  color: #927a73;
   font-size: 12px;
+  color: #927a73;
 }
 
-
-/* Separate the sound player from other settings */
+/* Classical music section */
 .sound-section {
   margin-top: 30px;
   padding-top: 25px;
   border-top: 1px solid #eadcd5;
 }
 
-/* Arrange the violin note buttons */
-.sound-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 18px;
+/* Music player */
+.sound-section audio {
+  width: 100%;
+  max-width: 100%;
+  margin-top: 15px;
 }
 
-/* Style the sound buttons */
-.sound-buttons button {
-  padding: 12px 20px;
-  background: #fff;
-  border: 1px solid #e5d7cf;
-  border-radius: 10px;
-  color: #68273a;
-  cursor: pointer;
+/* Music attribution */
+.music-credit {
+  font-size: 12px;
+  color: #927a73;
 }
-
-/* Highlight buttons on hover */
-.sound-buttons button:hover {
-  background: #faf0f0;
-  border-color: #8c4054;
-}
-
-
 
 </style>
