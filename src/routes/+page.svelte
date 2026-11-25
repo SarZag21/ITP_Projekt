@@ -411,6 +411,7 @@ let isLoading = $state(true);
       height: 520px;
       border-radius: 16px;
     }
+  }
 /* Style the color configuration panel */
 .color-panel {
   max-width: 600px;
@@ -647,5 +648,5 @@ let isLoading = $state(true);
   color: #927a73;
 }
 }
-  }
+  
 </style>
