@@ -36,6 +36,11 @@
 // Store the selected chinrest width
 let chinrestWidth = $state(0);
 
+
+// Track whether the 3D violin is loading
+let isLoading = $state(true);
+
+
 </script>
 
 <!-- Define the website title and description -->
@@ -72,6 +77,16 @@ let chinrestWidth = $state(0);
 
     <!-- Container for the interactive 3D scene -->
     <div class="viewer">
+
+
+    <!-- Show the loading indicator while the model loads -->
+    {#if isLoading}
+      <div class="loading-overlay">
+        <div class="loading-spinner"></div>
+        <p>Loading Violin...</p>
+      </div>
+    {/if}
+
 
       <!-- Create the 3D canvas -->
       <Canvas>
@@ -579,5 +594,44 @@ let chinrestWidth = $state(0);
   font-size: 12px;
   color: #927a73;
 }
+
+
+/* Cover the 3D viewer while loading */
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  background: #fffaf7;
+  z-index: 10;
+}
+
+/* Animate the loading circle */
+.loading-spinner {
+  width: 45px;
+  height: 45px;
+  border: 4px solid #eadcd5;
+  border-top-color: #8c4054;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Style the loading message */
+.loading-overlay p {
+  color: #68273a;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* Rotate the loading circle */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 
 </style>
