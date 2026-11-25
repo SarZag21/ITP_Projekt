@@ -383,39 +383,6 @@ let isLoading = $state(true);
     cursor: grabbing;
   }
 
-  /* Arrange the mouse instructions */
-  .viewer-instructions {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 28px;
-    margin-top: 22px;
-    color: #9a7c75;
-    font-size: 13px;
-  }
-
-  /* Center the description below the viewer */
-  .description {
-    max-width: 500px;
-    margin: 55px auto 0;
-  }
-
-  /* Style the description heading */
-  .description h3 {
-    font-family: Georgia, serif;
-    font-size: 26px;
-    font-weight: 400;
-    color: #68273a;
-    margin-bottom: 12px;
-  }
-
-  /* Style the description paragraph */
-  .description p {
-    font-size: 15px;
-    line-height: 1.8;
-    color: #8d7771;
-  }
-
   /* Adjust the layout for smaller screens */
   @media (max-width: 768px) {
 
@@ -444,15 +411,6 @@ let isLoading = $state(true);
       height: 520px;
       border-radius: 16px;
     }
-
-    /* Reduce control instructions spacing */
-    .viewer-instructions {
-      gap: 14px;
-      font-size: 12px;
-    }
-  }
-
-
 /* Style the color configuration panel */
 .color-panel {
   max-width: 600px;
@@ -683,6 +641,11 @@ let isLoading = $state(true);
   .configurator-layout .color-panel {
     padding: 20px;
   }
-}
 
+  .music-credit {
+  font-size: 12px;
+  color: #927a73;
+}
+}
+  }
 </style>
