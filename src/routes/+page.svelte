@@ -75,6 +75,9 @@ let isLoading = $state(true);
       </p>
     </div>
 
+    <!-- Arrange the 3D viewer and controls side by side -->
+    <div class="configurator-layout">
+
     <!-- Container for the interactive 3D scene -->
     <div class="viewer">
 
@@ -271,6 +274,7 @@ let isLoading = $state(true);
     Performance: The Modena Chamber Orchestra
   </p>
 
+</div>
 </div>
     </div>
   </section>
@@ -634,5 +638,51 @@ let isLoading = $state(true);
   }
 }
 
+
+/* Display the violin and configuration panel side by side */
+.configurator-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  max-width: 1450px;
+  margin: 0 auto;
+}
+
+/* Make the violin viewer fit its grid column */
+.configurator-layout .viewer {
+  width: 100%;
+  height: 650px;
+  margin: 0;
+}
+
+/* Make the control panel fit its grid column */
+.configurator-layout .color-panel {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+/* Stack the viewer and controls on smaller screens */
+@media (max-width: 1000px) {
+  .configurator-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .configurator-layout .viewer {
+    height: 520px;
+  }
+}
+
+/* Make the 3D viewer smaller on phones */
+@media (max-width: 600px) {
+  .configurator-layout .viewer {
+    height: 420px;
+  }
+
+  .configurator-layout .color-panel {
+    padding: 20px;
+  }
+}
 
 </style>
