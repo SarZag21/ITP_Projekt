@@ -133,6 +133,7 @@ let isLoading = $state(true);
   woodColor={selectedColor}
   woodFinish={selectedFinish}
   chinrestWidth={chinrestWidth}
+  onReady={() => isLoading = false}
 />
 
         <!-- Allow users to rotate, zoom and move the camera -->

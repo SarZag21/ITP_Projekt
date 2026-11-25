@@ -10,13 +10,22 @@
 
 // Load the violin model with the chinrest Shape Key
 const gltf = useGltf('/models/Violina_WithShape.glb');
+
+  // Notify the parent when the violin model is loaded
+  $effect(() => {
+    if ($gltf?.scene) {
+      onReady();
+    }
+  });
+
   // Get the function that refreshes the 3D scene
   const { invalidate } = useThrelte();
  // Receive color, finish and chinrest width from the main page
 let {
   woodColor = '#ffffff',
   woodFinish = 'glossy',
-  chinrestWidth = 0
+  chinrestWidth = 0,
+  onReady = () => {}
 } = $props();
 
   // Calculate the correct position and size of the violin
