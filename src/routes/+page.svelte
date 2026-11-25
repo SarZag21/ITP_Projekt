@@ -33,12 +33,8 @@
     }
   ];
 
-  // Receive color, finish and chinrest width from the main page
-let {
-  woodColor = '#ffffff',
-  woodFinish = 'glossy',
-  chinrestWidth = 0
-} = $props();
+// Store the selected chinrest width
+let chinrestWidth = $state(0);
 
 </script>
 
@@ -180,19 +176,15 @@ let {
 
     </div>
 
-    <!-- Material finish selection -->
-    <div class="finish-section">
 
 <!-- Chinrest geometry configuration -->
 <div class="chinrest-section">
 
   <!-- Section heading -->
   <h4>Chinrest Shape</h4>
-
-  <!-- Short description -->
   <p>Adjust the width of the chinrest.</p>
 
-  <!-- Shape control -->
+  <!-- Shape slider -->
   <input
     type="range"
     min="0"
@@ -201,7 +193,7 @@ let {
     bind:value={chinrestWidth}
   />
 
-  <!-- Display the selected value -->
+  <!-- Display selected width -->
   <div class="chinrest-labels">
     <span>Standard</span>
     <span>{Math.round(chinrestWidth * 100)}%</span>
@@ -239,9 +231,6 @@ let {
 
       </div>
     </div>
-
-    </div>
-
   </section>
 </main>
 
